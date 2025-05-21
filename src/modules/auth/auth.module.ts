@@ -9,6 +9,8 @@ import { AUTH_SERVICE_KEY } from './domain/interfaces/auth-service.interface';
 import { UserMapper } from './application/mapper/user.mapper';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 const userRepositoryProvider = {
   provide: USER_REPOSITORY_KEY,
@@ -31,8 +33,14 @@ const authServiceProvider = {
         signOptions: { expiresIn: '1d' },
       }),
     }),
+    PassportModule,
   ],
   controllers: [AuthController],
-  providers: [authServiceProvider, userRepositoryProvider, UserMapper],
+  providers: [
+    authServiceProvider,
+    userRepositoryProvider,
+    UserMapper,
+    JwtStrategy,
+  ],
 })
 export class AuthModule {}
