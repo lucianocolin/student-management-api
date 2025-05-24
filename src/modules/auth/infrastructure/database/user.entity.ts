@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { USER_NAME } from '../../domain/user.name';
 import { USER_ROLES } from '../../application/enum/user-roles.enum';
+import { StudentEntity } from '../../../student/infrastructure/database/student.entity';
 
 @Entity(USER_NAME)
 export class UserEntity {
@@ -26,4 +27,10 @@ export class UserEntity {
     default: [USER_ROLES.USER],
   })
   roles: USER_ROLES[];
+
+  @Column({ type: 'uuid', nullable: true })
+  studentId: string;
+
+  @OneToOne(() => StudentEntity, (student) => student.user)
+  student: StudentEntity;
 }
