@@ -11,6 +11,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { UserRoleGuard } from './guards/user-role.guard';
 
 const userRepositoryProvider = {
   provide: USER_REPOSITORY_KEY,
@@ -41,6 +43,15 @@ const authServiceProvider = {
     userRepositoryProvider,
     UserMapper,
     JwtStrategy,
+    JwtAuthGuard,
+    UserRoleGuard,
+  ],
+  exports: [
+    authServiceProvider,
+    userRepositoryProvider,
+    JwtStrategy,
+    JwtAuthGuard,
+    UserRoleGuard,
   ],
 })
 export class AuthModule {}
