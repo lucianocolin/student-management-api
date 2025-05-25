@@ -1,4 +1,10 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { USER_NAME } from '../../domain/user.name';
 import { USER_ROLES } from '../../application/enum/user-roles.enum';
 import { StudentEntity } from '../../../student/infrastructure/database/student.entity';
@@ -31,6 +37,10 @@ export class UserEntity {
   @Column({ type: 'uuid', nullable: true })
   studentId: string;
 
-  @OneToOne(() => StudentEntity, (student) => student.user)
+  @OneToOne(() => StudentEntity, (student) => student.user, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinColumn({ name: 'studentId' })
   student: StudentEntity;
 }
