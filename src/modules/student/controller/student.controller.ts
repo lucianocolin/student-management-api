@@ -8,6 +8,8 @@ import { STUDENT_NAME } from '../domain/student.name';
 import { Auth } from '../../auth/decorators/auth.decorator';
 import { USER_ROLES } from '../../auth/application/enum/user-roles.enum';
 import { CreateStudentDto } from '../application/dto/create-student.dto';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { User } from '../../auth/domain/user.domain';
 
 @Controller(STUDENT_NAME)
 export class StudentController {
@@ -31,8 +33,9 @@ export class StudentController {
   @Auth()
   @Post()
   async create(
+    @CurrentUser() user: User,
     @Body() createStudentDto: CreateStudentDto,
   ): Promise<StudentResponseDto> {
-    return await this.studentService.create(createStudentDto);
+    return await this.studentService.create(createStudentDto, user);
   }
 }

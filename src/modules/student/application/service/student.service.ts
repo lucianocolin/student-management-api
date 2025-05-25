@@ -7,6 +7,7 @@ import {
 } from '../../domain/interfaces/student-repository.interface';
 import { StudentMapper } from '../mapper/student.mapper';
 import { CreateStudentDto } from '../dto/create-student.dto';
+import { User } from 'src/modules/auth/domain/user.domain';
 
 @Injectable()
 export class StudentService implements IStudentService {
@@ -36,8 +37,12 @@ export class StudentService implements IStudentService {
 
   async create(
     createStudentDto: CreateStudentDto,
+    user: User,
   ): Promise<StudentResponseDto> {
-    const dbStudent = await this.studentRepository.create(createStudentDto);
+    const dbStudent = await this.studentRepository.create({
+      ...createStudentDto,
+      user,
+    });
 
     return this.studentMapper.fromStudentToStudentResponseDto(dbStudent);
   }
