@@ -1,6 +1,7 @@
+import { User } from 'src/modules/auth/domain/user.domain';
+
 export class Student {
   id?: string;
-  userId?: string;
   fullName: string;
   email: string;
   collegeId: number;
@@ -10,6 +11,7 @@ export class Student {
   subjects: string[];
   // TODO: add qualification domain
   qualifications?: number[];
+  user: User;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;

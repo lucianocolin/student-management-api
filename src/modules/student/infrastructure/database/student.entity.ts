@@ -15,9 +15,6 @@ export class StudentEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'uuid', nullable: true })
-  userId: string;
-
   @Column({ type: 'text' })
   fullName: string;
 

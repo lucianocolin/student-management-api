@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { RegisterUserDto } from '../application/dto/register-user.dto';
 import {
   AUTH_SERVICE_KEY,
@@ -6,12 +6,17 @@ import {
 } from '../domain/interfaces/auth-service.interface';
 import { UserResponseDto } from '../application/dto/user-response.dto';
 import { LoginUserDto } from '../application/dto/login-user.dto';
+import { CurrentUser } from '../decorators/current-user.decorator';
+import { Auth } from '../decorators/auth.decorator';
+import { User } from '../domain/user.domain';
+import { UserMapper } from '../application/mapper/user.mapper';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     @Inject(AUTH_SERVICE_KEY)
     private readonly authService: IAuthService,
+    private readonly userMapper: UserMapper,
   ) {}
 
   @Post('register')
@@ -24,5 +29,11 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto): Promise<UserResponseDto> {
     return await this.authService.login(loginUserDto);
+  }
+
+  @Auth()
+  @Get('me')
+  getMyUser(@CurrentUser() user: User): UserResponseDto {
+    return this.userMapper.fromUserToUserResponseDto(user);
   }
 }

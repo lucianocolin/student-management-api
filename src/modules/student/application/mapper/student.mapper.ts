@@ -7,7 +7,6 @@ export class StudentMapper {
   fromStudentToStudentResponseDto(student: Student): StudentResponseDto {
     const {
       id,
-      userId,
       fullName,
       email,
       career,
@@ -21,7 +20,6 @@ export class StudentMapper {
 
     return new StudentResponseDto({
       id,
-      userId,
       fullName,
       email,
       career,
