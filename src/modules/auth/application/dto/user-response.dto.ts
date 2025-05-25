@@ -7,6 +7,7 @@ export class UserResponseDto {
   phoneNumber: string;
   roles: USER_ROLES[];
   token?: string;
+  studentId?: string;
   constructor(data: UserResponseDto) {
     Object.assign(this, data);
   }

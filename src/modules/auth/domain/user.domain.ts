@@ -7,4 +7,5 @@ export class User {
   password: string;
   phoneNumber: string;
   roles: USER_ROLES[];
+  studentId?: string;
 }
