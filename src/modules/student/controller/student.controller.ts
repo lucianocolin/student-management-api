@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import {
   IStudentService,
   STUDENT_SERVICE_KEY,
@@ -26,7 +26,7 @@ export class StudentController {
 
   @Auth()
   @Get(':id')
-  async getOneById(id: string): Promise<StudentResponseDto> {
+  async getOneById(@Param('id') id: string): Promise<StudentResponseDto> {
     return await this.studentService.getOneById(id);
   }
 

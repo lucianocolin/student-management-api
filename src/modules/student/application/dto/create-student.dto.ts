@@ -22,7 +22,7 @@ export class CreateStudentDto {
 
   @IsString()
   @IsNotEmpty()
-  career: string;
+  careerId: string;
 
   @IsArray()
   @IsString({ each: true })
