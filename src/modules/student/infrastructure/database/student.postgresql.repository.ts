@@ -17,7 +17,13 @@ export class StudentRepository implements IStudentRepository {
   }
 
   async findOneById(id: string): Promise<Student> {
-    return await this.repository.findOneBy({ id });
+    const student = await this.repository.findOneBy({ id });
+
+    if (!student) {
+      throw new StudentNotFoundException(id);
+    }
+
+    return student;
   }
 
   async findOneByEmail(email: string): Promise<Student> {

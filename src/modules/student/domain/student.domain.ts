@@ -1,12 +1,12 @@
 import { User } from 'src/modules/auth/domain/user.domain';
+import { Career } from 'src/modules/career/domain/career.domain';
 
 export class Student {
   id?: string;
   fullName: string;
   email: string;
   collegeId: number;
-  // TODO: add career domain
-  career: string;
+  career: Career;
   // TODO: add subject domain
   subjects: string[];
   // TODO: add qualification domain

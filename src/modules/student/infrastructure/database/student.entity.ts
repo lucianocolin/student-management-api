@@ -3,12 +3,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { STUDENT_NAME } from '../../domain/student.name';
 import { UserEntity } from '../../../auth/infrastructure/database/user.entity';
+import { CareerEntity } from '../../../career/infrastructure/career.entity';
 
 @Entity(STUDENT_NAME)
 export class StudentEntity {
@@ -24,10 +26,8 @@ export class StudentEntity {
   @Column({ type: 'int', unique: true })
   collegeId: number;
 
-  // TODO: change to enum
-  // TODO: add relation
-  @Column({ type: 'text' })
-  career: string;
+  @Column({ type: 'uuid' })
+  careerId: string;
 
   // TODO: change to enum
   // TODO: add relation
@@ -50,4 +50,10 @@ export class StudentEntity {
 
   @OneToOne(() => UserEntity, (user) => user.student)
   user: UserEntity;
+
+  @OneToOne(() => CareerEntity, (career) => career.student, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'careerId' })
+  career: CareerEntity;
 }

@@ -8,6 +8,11 @@ import {
 import { StudentMapper } from '../mapper/student.mapper';
 import { CreateStudentDto } from '../dto/create-student.dto';
 import { User } from 'src/modules/auth/domain/user.domain';
+import {
+  CAREER_SERVICE_KEY,
+  ICareerService,
+} from '../../../career/domain/interfaces/career-service.interface';
+import { StudentNotFoundException } from '../../domain/exceptions/student-not-found.exception';
 
 @Injectable()
 export class StudentService implements IStudentService {
@@ -15,22 +20,24 @@ export class StudentService implements IStudentService {
     @Inject(STUDENT_REPOSITORY_KEY)
     private readonly studentRepository: IStudentRepository,
     private readonly studentMapper: StudentMapper,
+    @Inject(CAREER_SERVICE_KEY)
+    private readonly careerService: ICareerService,
   ) {}
 
   async getAll(): Promise<StudentResponseDto[]> {
-    try {
-      const dbStudents = await this.studentRepository.getAll();
+    const dbStudents = await this.studentRepository.getAll();
 
-      return dbStudents.map((student) =>
-        this.studentMapper.fromStudentToStudentResponseDto(student),
-      );
-    } catch (error) {
-      console.log('error: ', error);
-    }
+    return dbStudents.map((student) =>
+      this.studentMapper.fromStudentToStudentResponseDto(student),
+    );
   }
 
   async getOneById(id: string): Promise<StudentResponseDto> {
     const dbStudent = await this.studentRepository.findOneById(id);
+
+    if (!dbStudent) {
+      throw new StudentNotFoundException(id);
+    }
 
     return this.studentMapper.fromStudentToStudentResponseDto(dbStudent);
   }
@@ -39,9 +46,14 @@ export class StudentService implements IStudentService {
     createStudentDto: CreateStudentDto,
     user: User,
   ): Promise<StudentResponseDto> {
+    const career = await this.careerService.getOneById(
+      createStudentDto.careerId,
+    );
+
     const dbStudent = await this.studentRepository.create({
       ...createStudentDto,
       user,
+      career,
     });
 
     return this.studentMapper.fromStudentToStudentResponseDto(dbStudent);
