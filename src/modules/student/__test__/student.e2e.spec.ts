@@ -74,7 +74,10 @@ describe('Student Module', () => {
           id: 'uuid',
           fullName: 'John Doe',
           email: 'Q5NtD@example.com',
-          career: 'Computer Science',
+          career: {
+            id: 'id',
+            name: 'Computer Science',
+          },
           collegeId: 1,
           subjects: ['Mathematics', 'Physics'],
           qualifications: [80, 90],
@@ -86,7 +89,10 @@ describe('Student Module', () => {
           id: 'uuid-2',
           fullName: 'John Doe 2',
           email: 'Q5NtE@example.com',
-          career: 'Math Science',
+          career: {
+            id: 'id',
+            name: 'Math Science',
+          },
           collegeId: 2,
           subjects: ['History', 'Physics'],
           qualifications: [70, 50],
@@ -112,7 +118,10 @@ describe('Student Module', () => {
               id: expect.any(String),
               fullName: expect.any(String),
               email: expect.any(String),
-              career: expect.any(String),
+              career: expect.objectContaining({
+                id: expect.any(String),
+                name: expect.any(String),
+              }),
               collegeId: expect.any(Number),
               subjects: expect.any(Array),
               qualifications: expect.any(Array),
@@ -146,7 +155,10 @@ describe('Student Module', () => {
         id: 'uuid',
         fullName: 'John Doe',
         email: 'Q5NtD@example.com',
-        career: 'Computer Science',
+        career: {
+          id: 'id',
+          name: 'Computer Science',
+        },
         collegeId: 1,
         subjects: ['Mathematics', 'Physics'],
         qualifications: [80, 90],
@@ -170,7 +182,10 @@ describe('Student Module', () => {
             id: expect.any(String),
             fullName: expect.any(String),
             email: expect.any(String),
-            career: expect.any(String),
+            career: expect.objectContaining({
+              id: expect.any(String),
+              name: expect.any(String),
+            }),
             collegeId: expect.any(Number),
             subjects: expect.any(Array),
             qualifications: expect.any(Array),
@@ -223,8 +238,8 @@ describe('Student Module', () => {
       const createStudentDto: CreateStudentDto = {
         fullName: 'John Doe',
         email: 'Q5NtD@example.com',
-        career: 'Computer Science',
         collegeId: 1,
+        careerId: 'id',
         subjects: ['Mathematics', 'Physics'],
       };
 
@@ -232,7 +247,10 @@ describe('Student Module', () => {
         id: 'uuid',
         fullName: 'John Doe',
         email: 'Q5NtD@example.com',
-        career: 'Computer Science',
+        career: {
+          id: 'id',
+          name: 'Computer Science',
+        },
         collegeId: 1,
         subjects: ['Mathematics', 'Physics'],
         qualifications: [80, 90],
@@ -257,7 +275,10 @@ describe('Student Module', () => {
             id: expect.any(String),
             fullName: expect.any(String),
             email: expect.any(String),
-            career: expect.any(String),
+            career: expect.objectContaining({
+              id: expect.any(String),
+              name: expect.any(String),
+            }),
             collegeId: expect.any(Number),
             subjects: expect.any(Array),
             qualifications: expect.any(Array),
@@ -288,8 +309,8 @@ describe('Student Module', () => {
       const createStudentDto: CreateStudentDto = {
         fullName: 'John Doe',
         email: 'Q5NtD@example.com',
-        career: 'Computer Science',
         collegeId: 1,
+        careerId: 'id',
         subjects: ['Mathematics', 'Physics'],
       };
 
