@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UserEntity } from '../src/modules/auth/infrastructure/database/user.entity';
 import { StudentEntity } from '../src/modules/student/infrastructure/database/student.entity';
 import { StudentModule } from '../src/modules/student/student.module';
+import { CareerModule } from '../src/modules/career/career.module';
+import { CareerEntity } from '../src/modules/career/infrastructure/career.entity';
 
 @Module({
   imports: [
@@ -23,10 +25,11 @@ import { StudentModule } from '../src/modules/student/student.module';
       synchronize: true,
       autoLoadEntities: true,
       logging: false,
-      entities: [UserEntity, StudentEntity],
+      entities: [UserEntity, StudentEntity, CareerEntity],
     }),
     AuthModule,
     StudentModule,
+    CareerModule,
   ],
 })
 export class TestAppModule {}
