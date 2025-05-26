@@ -4,6 +4,7 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -31,7 +32,7 @@ export class StudentEntity {
 
   // TODO: change to enum
   // TODO: add relation
-  @Column({ type: 'text', array: true })
+  @Column({ type: 'text', array: true, nullable: true })
   subjects: string[];
 
   // TODO: change to enum
@@ -51,7 +52,7 @@ export class StudentEntity {
   @OneToOne(() => UserEntity, (user) => user.student)
   user: UserEntity;
 
-  @OneToOne(() => CareerEntity, (career) => career.student, {
+  @ManyToOne(() => CareerEntity, (career) => career.student, {
     eager: true,
   })
   @JoinColumn({ name: 'careerId' })
