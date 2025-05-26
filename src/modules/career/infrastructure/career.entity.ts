@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CAREER_NAME } from '../domain/career.name';
 import { StudentEntity } from '../../student/infrastructure/database/student.entity';
 
@@ -12,6 +12,6 @@ export class CareerEntity {
 
   // Add relationship with Subject
 
-  @OneToOne(() => StudentEntity, (student) => student.career)
+  @OneToMany(() => StudentEntity, (student) => student.career)
   student: StudentEntity;
 }

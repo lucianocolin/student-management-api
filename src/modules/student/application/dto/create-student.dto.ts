@@ -1,9 +1,8 @@
 import {
-  ArrayNotEmpty,
   IsArray,
   IsEmail,
   IsNotEmpty,
-  IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -16,16 +15,12 @@ export class CreateStudentDto {
   @IsNotEmpty()
   email: string;
 
-  @IsNumber()
-  @IsNotEmpty()
-  collegeId: number;
-
   @IsString()
   @IsNotEmpty()
   careerId: string;
 
   @IsArray()
+  @IsOptional()
   @IsString({ each: true })
-  @ArrayNotEmpty()
-  subjects: string[];
+  subjects?: string[] | null;
 }

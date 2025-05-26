@@ -52,10 +52,21 @@ export class StudentService implements IStudentService {
 
     const dbStudent = await this.studentRepository.create({
       ...createStudentDto,
+      collegeId: (await this.getLastCollegeId()) + 1,
       user,
       career,
     });
 
     return this.studentMapper.fromStudentToStudentResponseDto(dbStudent);
+  }
+
+  private async getLastCollegeId(): Promise<number> {
+    const students = await this.getAll();
+
+    if (!students.length) {
+      return 0;
+    }
+
+    return Math.max(...students.map((student) => student.collegeId));
   }
 }
