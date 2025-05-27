@@ -9,9 +9,7 @@ export class Student {
   collegeId: number;
   career: Career;
   subjects: Subject[];
-  // TODO: add qualification domain
-  qualifications?: number[];
-  user: User;
+  user?: User;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
