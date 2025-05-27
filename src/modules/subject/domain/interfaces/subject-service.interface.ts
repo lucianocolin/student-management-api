@@ -5,5 +5,6 @@ export const SUBJECT_SERVICE_KEY = 'SUBJECT_SERVICE';
 
 export interface ISubjectService {
   getAll(): Promise<SubjectResponseDto[]>;
+  getOneById(id: string): Promise<SubjectResponseDto>;
   create(createSubjectDto: CreateSubjectDto): Promise<SubjectResponseDto>;
 }

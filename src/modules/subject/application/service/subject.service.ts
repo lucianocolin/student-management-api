@@ -11,6 +11,7 @@ import {
   CAREER_SERVICE_KEY,
   ICareerService,
 } from '../../../career/domain/interfaces/career-service.interface';
+import { SubjectNotFoundException } from '../../domain/exceptions/subject-not-found.exception';
 
 @Injectable()
 export class SubjectService implements ISubjectService {
@@ -28,6 +29,16 @@ export class SubjectService implements ISubjectService {
     return dbSubjects.map((dbSubject) =>
       this.subjectMapper.fromSubjectToSubjectResponseDto(dbSubject),
     );
+  }
+
+  async getOneById(id: string): Promise<SubjectResponseDto> {
+    const dbSubject = await this.subjectRepository.findOneById(id);
+
+    if (!dbSubject) {
+      throw new SubjectNotFoundException(id);
+    }
+
+    return this.subjectMapper.fromSubjectToSubjectResponseDto(dbSubject);
   }
 
   async create(
