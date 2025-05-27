@@ -3,11 +3,12 @@ import { CareerResponseDto } from '../dto/career-response.dto';
 
 export class CareerMapper {
   fromCareerToCareerResponseDto(career: Career): CareerResponseDto {
-    const { id, name } = career;
+    const { id, name, subjects } = career;
 
     return new CareerResponseDto({
       id,
       name,
+      subjects,
     });
   }
 }

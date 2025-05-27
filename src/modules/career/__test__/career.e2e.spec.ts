@@ -73,14 +73,17 @@ describe('Career Module', () => {
         {
           id: 'uuid',
           name: 'Computer Science',
+          subjects: [],
         },
         {
           id: 'uuid-2',
           name: 'Math Science',
+          subjects: [],
         },
         {
           id: 'uuid-3',
           name: 'Physics',
+          subjects: [],
         },
       ];
 
@@ -125,6 +128,7 @@ describe('Career Module', () => {
       const careerResponse: CareerResponseDto = {
         id: 'uuid',
         name: 'Computer Science',
+        subjects: [],
       };
 
       jest
@@ -191,6 +195,7 @@ describe('Career Module', () => {
       const careerResponse: CareerResponseDto = {
         id: 'uuid',
         name: 'Computer Science',
+        subjects: [],
       };
 
       const authToken = jwtService.sign(testUserPayload);

@@ -5,6 +5,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -12,6 +13,7 @@ import {
 import { STUDENT_NAME } from '../../domain/student.name';
 import { UserEntity } from '../../../auth/infrastructure/database/user.entity';
 import { CareerEntity } from '../../../career/infrastructure/career.entity';
+import { SubjectEntity } from '../../../subject/infrastructure/database/subject.entity';
 
 @Entity(STUDENT_NAME)
 export class StudentEntity {
@@ -29,11 +31,6 @@ export class StudentEntity {
 
   @Column({ type: 'uuid' })
   careerId: string;
-
-  // TODO: change to enum
-  // TODO: add relation
-  @Column({ type: 'text', array: true, nullable: true })
-  subjects: string[];
 
   // TODO: change to enum
   // TODO: add relation
@@ -57,4 +54,9 @@ export class StudentEntity {
   })
   @JoinColumn({ name: 'careerId' })
   career: CareerEntity;
+
+  @OneToMany(() => SubjectEntity, (subject) => subject.student, {
+    eager: true,
+  })
+  subjects: SubjectEntity[];
 }

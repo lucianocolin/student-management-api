@@ -55,6 +55,7 @@ export class StudentService implements IStudentService {
       collegeId: (await this.getLastCollegeId()) + 1,
       user,
       career,
+      subjects: career.subjects || [],
     });
 
     return this.studentMapper.fromStudentToStudentResponseDto(dbStudent);

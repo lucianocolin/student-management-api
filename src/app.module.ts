@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { StudentModule } from './modules/student/student.module';
 import { CareerModule } from './modules/career/career.module';
+import { SubjectModule } from './modules/subject/subject.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CareerModule } from './modules/career/career.module';
     }),
     StudentModule,
     CareerModule,
+    SubjectModule,
   ],
   controllers: [AppController],
   providers: [AppService],
