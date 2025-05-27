@@ -28,5 +28,6 @@ const studentRepositoryProvider = {
   ],
   controllers: [StudentController],
   providers: [studentServiceProvider, studentRepositoryProvider, StudentMapper],
+  exports: [studentServiceProvider, studentRepositoryProvider],
 })
 export class StudentModule {}
