@@ -4,6 +4,7 @@ export const SUBJECT_REPOSITORY_KEY = 'SUBJECT_REPOSITORY';
 
 export interface ISubjectRepository {
   findAll(): Promise<Subject[]>;
+  findOneById(id: string): Promise<Subject>;
   findOneByName(name: string): Promise<Subject>;
   create(subject: Subject): Promise<Subject>;
 }

@@ -15,6 +15,10 @@ export class SubjectRepository implements ISubjectRepository {
     return this.repository.find();
   }
 
+  async findOneById(id: string): Promise<Subject> {
+    return this.repository.findOneBy({ id });
+  }
+
   async findOneByName(name: string): Promise<Subject> {
     return this.repository.findOneBy({ name });
   }

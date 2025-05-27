@@ -23,5 +23,6 @@ const subjectServiceProvider = {
   imports: [TypeOrmModule.forFeature([SubjectEntity]), CareerModule],
   controllers: [SubjectController],
   providers: [subjectRepositoryProvider, subjectServiceProvider, SubjectMapper],
+  exports: [subjectRepositoryProvider, subjectServiceProvider],
 })
 export class SubjectModule {}

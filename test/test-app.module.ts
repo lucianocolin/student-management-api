@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { StudentModule } from '../src/modules/student/student.module';
 import { CareerModule } from '../src/modules/career/career.module';
 import { SubjectModule } from '../src/modules/subject/subject.module';
+import { EnrollmentModule } from '../src/modules/enrollment/enrollment.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { SubjectModule } from '../src/modules/subject/subject.module';
     StudentModule,
     CareerModule,
     SubjectModule,
+    EnrollmentModule,
   ],
 })
 export class TestAppModule {}

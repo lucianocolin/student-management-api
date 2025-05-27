@@ -13,7 +13,7 @@ import {
 import { STUDENT_NAME } from '../../domain/student.name';
 import { UserEntity } from '../../../auth/infrastructure/database/user.entity';
 import { CareerEntity } from '../../../career/infrastructure/career.entity';
-import { SubjectEntity } from '../../../subject/infrastructure/database/subject.entity';
+import { EnrollmentEntity } from '../../../enrollment/infrastructure/database/enrollment.entity';
 
 @Entity(STUDENT_NAME)
 export class StudentEntity {
@@ -31,11 +31,6 @@ export class StudentEntity {
 
   @Column({ type: 'uuid' })
   careerId: string;
-
-  // TODO: change to enum
-  // TODO: add relation
-  @Column({ type: 'float', nullable: true, array: true })
-  qualifications: number[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
@@ -55,8 +50,6 @@ export class StudentEntity {
   @JoinColumn({ name: 'careerId' })
   career: CareerEntity;
 
-  @OneToMany(() => SubjectEntity, (subject) => subject.student, {
-    eager: true,
-  })
-  subjects: SubjectEntity[];
+  @OneToMany(() => EnrollmentEntity, (enrollment) => enrollment.student)
+  enrollments: EnrollmentEntity[];
 }
