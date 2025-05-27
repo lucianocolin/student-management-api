@@ -1,4 +1,5 @@
 import { Career } from 'src/modules/career/domain/career.domain';
+import { Subject } from 'src/modules/subject/domain/subject.domain';
 
 export class StudentResponseDto {
   id?: string;
@@ -7,7 +8,7 @@ export class StudentResponseDto {
   email: string;
   collegeId: number;
   career: Career;
-  subjects: string[];
+  subjects: Subject[];
   qualifications?: number[];
   createdAt?: Date;
   updatedAt?: Date;
