@@ -79,7 +79,16 @@ describe('Student Module', () => {
             name: 'Computer Science',
           },
           collegeId: 1,
-          subjects: ['Mathematics', 'Physics'],
+          subjects: [
+            {
+              id: 'id',
+              name: 'Mathematics',
+              career: {
+                id: 'id',
+                name: 'Computer Science',
+              },
+            },
+          ],
           qualifications: [80, 90],
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -94,7 +103,16 @@ describe('Student Module', () => {
             name: 'Math Science',
           },
           collegeId: 2,
-          subjects: ['History', 'Physics'],
+          subjects: [
+            {
+              id: 'id',
+              name: 'Mathematics',
+              career: {
+                id: 'id',
+                name: 'Computer Science',
+              },
+            },
+          ],
           qualifications: [70, 50],
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -160,7 +178,16 @@ describe('Student Module', () => {
           name: 'Computer Science',
         },
         collegeId: 1,
-        subjects: ['Mathematics', 'Physics'],
+        subjects: [
+          {
+            id: 'id',
+            name: 'Mathematics',
+            career: {
+              id: 'id',
+              name: 'Computer Science',
+            },
+          },
+        ],
         qualifications: [80, 90],
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -238,7 +265,6 @@ describe('Student Module', () => {
       const createStudentDto: CreateStudentDto = {
         fullName: 'John Doe',
         email: 'Q5NtD@example.com',
-        collegeId: 1,
         careerId: 'id',
         subjects: ['Mathematics', 'Physics'],
       };
@@ -252,7 +278,16 @@ describe('Student Module', () => {
           name: 'Computer Science',
         },
         collegeId: 1,
-        subjects: ['Mathematics', 'Physics'],
+        subjects: [
+          {
+            id: 'id',
+            name: 'Mathematics',
+            career: {
+              id: 'id',
+              name: 'Computer Science',
+            },
+          },
+        ],
         qualifications: [80, 90],
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -309,7 +344,6 @@ describe('Student Module', () => {
       const createStudentDto: CreateStudentDto = {
         fullName: 'John Doe',
         email: 'Q5NtD@example.com',
-        collegeId: 1,
         careerId: 'id',
         subjects: ['Mathematics', 'Physics'],
       };
