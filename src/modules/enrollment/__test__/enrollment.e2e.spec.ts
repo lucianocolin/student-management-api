@@ -262,14 +262,13 @@ describe('Enrollment Module', () => {
 
       const createEnrollmentDto: CreateEnrollmentDto = {
         subjectId: 'subjectId',
-        grade: 10,
       };
 
       const enrollmentResponse: EnrollmentResponseDto = {
         id: 'uuid',
         studentId: 'studentId',
         subjectId: 'subjectId',
-        grade: 10,
+        grade: null,
         enrolledAt: new Date(),
         approved: true,
       };
