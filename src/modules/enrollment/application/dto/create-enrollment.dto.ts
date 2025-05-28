@@ -7,10 +7,6 @@ import {
 } from 'class-validator';
 
 export class CreateEnrollmentDto {
-  // @IsString()
-  // @IsNotEmpty()
-  // studentId: string;
-
   @IsString()
   @IsNotEmpty()
   subjectId: string;
