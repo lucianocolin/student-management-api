@@ -11,4 +11,5 @@ export interface IStudentService {
     createStudentDto: CreateStudentDto,
     user: User,
   ): Promise<StudentResponseDto>;
+  delete(id: string): Promise<void>;
 }

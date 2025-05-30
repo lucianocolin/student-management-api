@@ -13,6 +13,10 @@ import {
   ICareerService,
 } from '../../../career/domain/interfaces/career-service.interface';
 import { StudentNotFoundException } from '../../domain/exceptions/student-not-found.exception';
+import {
+  AUTH_SERVICE_KEY,
+  IAuthService,
+} from '../../../auth/domain/interfaces/auth-service.interface';
 
 @Injectable()
 export class StudentService implements IStudentService {
@@ -22,6 +26,8 @@ export class StudentService implements IStudentService {
     private readonly studentMapper: StudentMapper,
     @Inject(CAREER_SERVICE_KEY)
     private readonly careerService: ICareerService,
+    @Inject(AUTH_SERVICE_KEY)
+    private readonly authService: IAuthService,
   ) {}
 
   async getAll(): Promise<StudentResponseDto[]> {
@@ -59,6 +65,18 @@ export class StudentService implements IStudentService {
     });
 
     return this.studentMapper.fromStudentToStudentResponseDto(dbStudent);
+  }
+
+  async delete(id: string): Promise<void> {
+    const { userId } = await this.getOneById(id);
+
+    const isDeleted = await this.studentRepository.deleteOne(id);
+
+    if (isDeleted) {
+      await this.authService.updateUser(userId, {
+        studentId: null,
+      });
+    }
   }
 
   private async getLastCollegeId(): Promise<number> {
