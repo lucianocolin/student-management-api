@@ -8,5 +8,5 @@ export interface IStudentRepository {
   findOneByEmail(email: string): Promise<Student>;
   create(student: Student): Promise<Student>;
   updateOne(studentId: string, student: Student): Promise<Student>;
-  deleteOne(studentId: string): Promise<void>;
+  deleteOne(studentId: string): Promise<boolean>;
 }
