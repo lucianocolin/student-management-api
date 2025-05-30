@@ -17,13 +17,10 @@ export class StudentRepository implements IStudentRepository {
   }
 
   async findOneById(id: string): Promise<Student> {
-    const student = await this.repository.findOneBy({ id });
-
-    if (!student) {
-      throw new StudentNotFoundException(id);
-    }
-
-    return student;
+    return await this.repository.findOne({
+      where: { id },
+      relations: ['career', 'user'],
+    });
   }
 
   async findOneByEmail(email: string): Promise<Student> {
@@ -52,13 +49,15 @@ export class StudentRepository implements IStudentRepository {
     return await this.repository.save({ ...studentToUpdate, ...student });
   }
 
-  async deleteOne(studentId: string): Promise<void> {
-    const studentToDelete = await this.repository.findOneBy({ id: studentId });
+  async deleteOne(studentId: string): Promise<boolean> {
+    const studentToDelete = await this.findOneById(studentId);
 
     if (!studentToDelete) {
       throw new StudentNotFoundException(studentId);
     }
 
     await this.repository.softDelete({ id: studentId });
+
+    return true;
   }
 }

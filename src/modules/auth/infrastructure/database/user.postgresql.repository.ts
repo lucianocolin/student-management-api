@@ -6,6 +6,7 @@ import { User } from '../../domain/user.domain';
 import { RegisterUserDto } from '../../application/dto/register-user.dto';
 import { IUserRepository } from '../../domain/interfaces/user-repository.interface';
 import { UserAlreadyExistsException } from '../../domain/exceptions/user-already-exists.exception';
+import { UserIdNotFoundException } from '../../domain/exceptions/user-id-not-found.exception';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -30,5 +31,19 @@ export class UserRepository implements IUserRepository {
 
   async findOneByEmail(email: string): Promise<User> {
     return this.repository.findOneBy({ email });
+  }
+
+  async findOneById(id: string): Promise<User> {
+    return this.repository.findOneBy({ id });
+  }
+
+  async updateOne(userId: string, user: Partial<User>): Promise<User> {
+    const userToUpdate = await this.findOneById(userId);
+
+    if (!userToUpdate) {
+      throw new UserIdNotFoundException(userId);
+    }
+
+    return await this.repository.save({ ...userToUpdate, ...user });
   }
 }

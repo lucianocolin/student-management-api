@@ -21,6 +21,7 @@ const mockStudentService = {
   getAll: jest.fn(),
   getOneById: jest.fn(),
   create: jest.fn(),
+  delete: jest.fn(),
 };
 
 describe('Student Module', () => {
@@ -248,7 +249,7 @@ describe('Student Module', () => {
       await request(app.getHttpServer())
         .get('/student/uuid')
         .set('Authorization', `Bearer ${authToken}`)
-        .expect(HttpStatus.BAD_REQUEST)
+        .expect(HttpStatus.NOT_FOUND)
         .then(({ body }) => {
           expect(body.message).toEqual(`Student with id uuid not found`);
         });
@@ -365,6 +366,54 @@ describe('Student Module', () => {
           expect(body.message).toEqual(
             `User with email ${createStudentDto.email} already exists`,
           );
+        });
+    });
+  });
+
+  describe('DELETE - /student/:id', () => {
+    it('should delete a student', async () => {
+      const testUserPayload = {
+        id: testUserId,
+        email: 'admin@example.com',
+      };
+
+      const authToken = jwtService.sign(testUserPayload);
+
+      jest.spyOn(mockStudentService, 'delete').mockResolvedValueOnce({});
+
+      await request(app.getHttpServer())
+        .delete('/student/uuid')
+        .set('Authorization', `Bearer ${authToken}`)
+        .expect(HttpStatus.OK);
+    });
+
+    it('should throw an exception if user is not authenticated', async () => {
+      await request(app.getHttpServer())
+        .delete('/student/uuid')
+        .expect(HttpStatus.UNAUTHORIZED)
+        .then(({ body }) => {
+          expect(body.message).toEqual('Unauthorized');
+        });
+    });
+
+    it('should throw an exception if student does not exist', async () => {
+      const testUserPayload = {
+        id: testUserId,
+        email: 'admin@example.com',
+      };
+
+      const authToken = jwtService.sign(testUserPayload);
+
+      jest
+        .spyOn(mockStudentService, 'delete')
+        .mockRejectedValueOnce(new StudentNotFoundException('uuid'));
+
+      await request(app.getHttpServer())
+        .delete('/student/uuid')
+        .set('Authorization', `Bearer ${authToken}`)
+        .expect(HttpStatus.NOT_FOUND)
+        .then(({ body }) => {
+          expect(body.message).toEqual(`Student with id uuid not found`);
         });
     });
   });

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+} from '@nestjs/common';
 import {
   IStudentService,
   STUDENT_SERVICE_KEY,
@@ -37,5 +45,11 @@ export class StudentController {
     @Body() createStudentDto: CreateStudentDto,
   ): Promise<StudentResponseDto> {
     return await this.studentService.create(createStudentDto, user);
+  }
+
+  @Auth(USER_ROLES.ADMIN)
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<void> {
+    return await this.studentService.delete(id);
   }
 }
