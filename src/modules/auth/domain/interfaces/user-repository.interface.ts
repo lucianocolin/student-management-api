@@ -6,4 +6,6 @@ export const USER_REPOSITORY_KEY = 'USER_REPOSITORY';
 export interface IUserRepository {
   saveOne(registerUserDto: RegisterUserDto): Promise<User>;
   findOneByEmail(email: string): Promise<User>;
+  findOneById(id: string): Promise<User>;
+  updateOne(userId: string, user: Partial<User>): Promise<User>;
 }
