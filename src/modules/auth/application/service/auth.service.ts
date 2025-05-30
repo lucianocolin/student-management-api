@@ -13,6 +13,7 @@ import { UserNotFoundException } from '../../domain/exceptions/user-not-found.ex
 import { InvalidPasswordException } from '../../domain/exceptions/invalid-password.exception';
 import { JwtService } from '@nestjs/jwt';
 import { IJwtPayload } from '../../domain/interfaces/jwt-payload.interface';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -53,6 +54,18 @@ export class AuthService implements IAuthService {
       ...mappedUser,
       token: this.getJWTToken({ id: user.id, email: user.email }),
     };
+  }
+
+  async updateUser(
+    userId: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserResponseDto> {
+    const dbUserUpdated = await this.userRepository.updateOne(
+      userId,
+      updateUserDto,
+    );
+
+    return this.userMapper.fromUserToUserResponseDto(dbUserUpdated);
   }
 
   private getJWTToken(payload: IJwtPayload) {
