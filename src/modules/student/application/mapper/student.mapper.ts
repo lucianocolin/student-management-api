@@ -12,6 +12,7 @@ export class StudentMapper {
       career,
       collegeId,
       subjects,
+      user,
       createdAt,
       updatedAt,
       deletedAt,
@@ -19,6 +20,7 @@ export class StudentMapper {
 
     return new StudentResponseDto({
       id,
+      userId: user?.id,
       fullName,
       email,
       career,
