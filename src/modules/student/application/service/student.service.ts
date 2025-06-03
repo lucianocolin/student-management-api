@@ -30,8 +30,8 @@ export class StudentService implements IStudentService {
     private readonly authService: IAuthService,
   ) {}
 
-  async getAll(): Promise<StudentResponseDto[]> {
-    const dbStudents = await this.studentRepository.getAll();
+  async getAll(search?: string): Promise<StudentResponseDto[]> {
+    const dbStudents = await this.studentRepository.getAll(search);
 
     return dbStudents.map((student) =>
       this.studentMapper.fromStudentToStudentResponseDto(student),
