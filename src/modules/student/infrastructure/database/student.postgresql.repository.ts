@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { IStudentRepository } from '../../domain/interfaces/student-repository.interface';
 import { StudentEntity } from './student.entity';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { Student } from '../../domain/student.domain';
 import { StudentAlreadyExistsException } from '../../domain/exceptions/student-already-exists.exception';
 import { StudentNotFoundException } from '../../domain/exceptions/student-not-found.exception';
@@ -12,8 +12,18 @@ export class StudentRepository implements IStudentRepository {
     private readonly repository: Repository<Student>,
   ) {}
 
-  async getAll(): Promise<Student[]> {
-    return await this.repository.find();
+  async getAll(search?: string): Promise<Student[]> {
+    if (search) {
+      return await this.repository.find({
+        where: [
+          { fullName: ILike(`%${search}%`) },
+          { email: ILike(`%${search}%`) },
+        ],
+        relations: ['career', 'user'],
+      });
+    }
+
+    return await this.repository.find({ relations: ['career', 'user'] });
   }
 
   async findOneById(id: string): Promise<Student> {
