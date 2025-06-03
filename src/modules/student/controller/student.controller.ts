@@ -6,6 +6,7 @@ import {
   Inject,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   IStudentService,
@@ -28,8 +29,10 @@ export class StudentController {
 
   @Auth(USER_ROLES.ADMIN)
   @Get()
-  async getAll(): Promise<StudentResponseDto[]> {
-    return await this.studentService.getAll();
+  async getAll(
+    @Query('search') search?: string,
+  ): Promise<StudentResponseDto[]> {
+    return await this.studentService.getAll(search);
   }
 
   @Auth()
