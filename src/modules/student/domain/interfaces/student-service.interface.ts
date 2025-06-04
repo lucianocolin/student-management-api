@@ -5,7 +5,7 @@ import { StudentResponseDto } from '../../application/dto/student-response.dto';
 export const STUDENT_SERVICE_KEY = 'STUDENT_SERVICE';
 
 export interface IStudentService {
-  getAll(): Promise<StudentResponseDto[]>;
+  getAll(search?: string): Promise<StudentResponseDto[]>;
   getOneById(id: string): Promise<StudentResponseDto>;
   create(
     createStudentDto: CreateStudentDto,

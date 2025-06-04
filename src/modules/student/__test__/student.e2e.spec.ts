@@ -154,6 +154,71 @@ describe('Student Module', () => {
         });
     });
 
+    it('should filter students with search query', async () => {
+      const testUserPayload = {
+        id: testUserId,
+        email: 'admin@example.com',
+      };
+      const studentsResponse: StudentResponseDto[] = [
+        {
+          id: 'uuid',
+          fullName: 'John Doe',
+          email: 'Q5NtD@example.com',
+          career: {
+            id: 'id',
+            name: 'Computer Science',
+          },
+          collegeId: 1,
+          subjects: [
+            {
+              id: 'id',
+              name: 'Mathematics',
+              career: {
+                id: 'id',
+                name: 'Computer Science',
+              },
+            },
+          ],
+          qualifications: [80, 90],
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          deletedAt: null,
+        },
+      ];
+
+      const authToken = jwtService.sign(testUserPayload);
+
+      jest
+        .spyOn(mockStudentService, 'getAll')
+        .mockResolvedValue(studentsResponse);
+
+      await request(app.getHttpServer())
+        .get('/student?search=Q5NtD@example.com')
+        .set('Authorization', `Bearer ${authToken}`)
+        .expect(HttpStatus.OK)
+        .then(({ body }) => {
+          const expectedResponse = expect.arrayContaining([
+            expect.objectContaining({
+              id: expect.any(String),
+              fullName: expect.any(String),
+              email: expect.any(String),
+              career: expect.objectContaining({
+                id: expect.any(String),
+                name: expect.any(String),
+              }),
+              collegeId: expect.any(Number),
+              subjects: expect.any(Array),
+              qualifications: expect.any(Array),
+              createdAt: expect.any(String),
+              updatedAt: expect.any(String),
+              deletedAt: null,
+            }),
+          ]);
+
+          expect(body).toEqual(expectedResponse);
+        });
+    });
+
     it('should throw an exception if user is not authenticated', async () => {
       await request(app.getHttpServer())
         .get('/student')
