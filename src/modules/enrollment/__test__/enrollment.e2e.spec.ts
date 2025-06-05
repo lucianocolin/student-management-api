@@ -74,36 +74,6 @@ describe('Enrollment Module', () => {
           grade: 10,
           enrolledAt: new Date(),
           approved: true,
-          // student: {
-          //   id: 'studentId',
-          //   fullName: 'John Doe',
-          //   email: 'admin@example.com',
-          //   collegeId: 100,
-          //   career: {
-          //     id: 'careerId',
-          //     name: 'Computer Science',
-          //   },
-          //   subjects: [
-          //     {
-          //       id: 'subjectId',
-          //       name: 'Computer Science',
-          //       career: {
-          //         id: 'careerId',
-          //         name: 'Computer Science',
-          //       },
-          //     },
-          //   ],
-          //   createdAt: new Date(),
-          //   updatedAt: new Date(),
-          // },
-          // subject: {
-          //   id: 'subjectId',
-          //   name: 'Computer Science',
-          //   career: {
-          //     id: 'careerId',
-          //     name: 'Computer Science',
-          //   },
-          // },
         },
         {
           id: 'uuid-2',
@@ -112,36 +82,6 @@ describe('Enrollment Module', () => {
           grade: 10,
           enrolledAt: new Date(),
           approved: true,
-          // student: {
-          //   id: 'studentId-2',
-          //   fullName: 'John Doe',
-          //   email: 'admin@example.com',
-          //   collegeId: 100,
-          //   career: {
-          //     id: 'careerId-2',
-          //     name: 'Computer Science',
-          //   },
-          //   subjects: [
-          //     {
-          //       id: 'subjectId-2',
-          //       name: 'Computer Science',
-          //       career: {
-          //         id: 'careerId-2',
-          //         name: 'Computer Science',
-          //       },
-          //     },
-          //   ],
-          //   createdAt: new Date(),
-          //   updatedAt: new Date(),
-          // },
-          // subject: {
-          //   id: 'subjectId-2',
-          //   name: 'Computer Science',
-          //   career: {
-          //     id: 'careerId-2',
-          //     name: 'Computer Science',
-          //   },
-          // },
         },
       ];
 
@@ -289,7 +229,7 @@ describe('Enrollment Module', () => {
             id: expect.any(String),
             studentId: expect.any(String),
             subjectId: expect.any(String),
-            grade: expect.any(Number),
+            grade: null,
             enrolledAt: expect.any(String),
             approved: expect.any(Boolean),
           });
