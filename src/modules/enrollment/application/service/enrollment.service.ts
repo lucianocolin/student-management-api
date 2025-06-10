@@ -16,6 +16,7 @@ import {
   SUBJECT_SERVICE_KEY,
 } from '../../../subject/domain/interfaces/subject-service.interface';
 import { User } from '../../../auth/domain/user.domain';
+import { AssignGradeDto } from '../dto/assign-grade.dto';
 
 @Injectable()
 export class EnrollmentService implements IEnrollmentService {
@@ -55,6 +56,20 @@ export class EnrollmentService implements IEnrollmentService {
 
     return this.enrollmentMapper.fromEnrollmentToEnrollmentResponseDto(
       dbEnrollment,
+    );
+  }
+
+  async assignGrade(
+    enrollmentId: string,
+    assignGradeDto: AssignGradeDto,
+  ): Promise<EnrollmentResponseDto> {
+    const dbEnrollmentUpdated = await this.enrollmentRepository.updateOne(
+      enrollmentId,
+      assignGradeDto,
+    );
+
+    return this.enrollmentMapper.fromEnrollmentToEnrollmentResponseDto(
+      dbEnrollmentUpdated,
     );
   }
 }
