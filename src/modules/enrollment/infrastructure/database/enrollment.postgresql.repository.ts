@@ -13,7 +13,9 @@ export class EnrollmentRepository implements IEnrollmentRepository {
 
   async findAll(studentId?: string): Promise<Enrollment[]> {
     if (!studentId) {
-      return this.repository.find();
+      return this.repository.find({
+        relations: ['student', 'subject'],
+      });
     }
 
     return this.repository.find({
