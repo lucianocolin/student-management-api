@@ -14,10 +14,13 @@ import { USER_ROLES } from '../../auth/application/enum/user-roles.enum';
 import { EnrollmentResponseDto } from '../application/dto/enrollment-response.dto';
 import * as request from 'supertest';
 import { CreateEnrollmentDto } from '../application/dto/create-enrollment.dto';
+import { AssignGradeDto } from '../application/dto/assign-grade.dto';
+import { EnrollmentNotFoundException } from '../domain/exception/enrollment-not-found.exception';
 
 const mockEnrollmentService = {
   getAll: jest.fn(),
   create: jest.fn(),
+  assignGrade: jest.fn(),
 };
 
 describe('Enrollment Module', () => {
@@ -244,6 +247,87 @@ describe('Enrollment Module', () => {
         .expect(HttpStatus.UNAUTHORIZED)
         .then(({ body }) => {
           expect(body.message).toEqual('Unauthorized');
+        });
+    });
+  });
+
+  describe('PATCH - /enrollment/:id', () => {
+    it('should assign a grade to an enrollment', async () => {
+      const testUserPayload = {
+        id: testUserId,
+        email: 'admin@example.com',
+      };
+
+      const assignGradeDto: AssignGradeDto = {
+        grade: 10,
+      };
+
+      const enrollmentResponse: EnrollmentResponseDto = {
+        id: 'uuid',
+        studentId: 'studentId',
+        subjectId: 'subjectId',
+        grade: 10,
+        enrolledAt: new Date(),
+        approved: true,
+      };
+
+      jest
+        .spyOn(mockEnrollmentService, 'assignGrade')
+        .mockResolvedValueOnce(enrollmentResponse);
+
+      const authToken = jwtService.sign(testUserPayload);
+
+      await request(app.getHttpServer())
+        .patch('/enrollment/uuid')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send(assignGradeDto)
+        .expect(HttpStatus.OK)
+        .then(({ body }) => {
+          const expectedResponse = expect.objectContaining({
+            id: expect.any(String),
+            studentId: expect.any(String),
+            subjectId: expect.any(String),
+            grade: expect.any(Number),
+            enrolledAt: expect.any(String),
+            approved: expect.any(Boolean),
+          });
+
+          expect(body).toEqual(expectedResponse);
+        });
+    });
+
+    it('should throw an error if user is not authenticated', async () => {
+      await request(app.getHttpServer())
+        .patch('/enrollment/uuid')
+        .expect(HttpStatus.UNAUTHORIZED)
+        .then(({ body }) => {
+          expect(body.message).toEqual('Unauthorized');
+        });
+    });
+
+    it('should throw an error if enrollment is not found', async () => {
+      const testUserPayload = {
+        id: testUserId,
+        email: 'admin@example.com',
+      };
+
+      const assignGradeDto: AssignGradeDto = {
+        grade: 10,
+      };
+
+      jest
+        .spyOn(mockEnrollmentService, 'assignGrade')
+        .mockRejectedValueOnce(new EnrollmentNotFoundException('uuid'));
+
+      const authToken = jwtService.sign(testUserPayload);
+
+      await request(app.getHttpServer())
+        .patch('/enrollment/uuid')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send(assignGradeDto)
+        .expect(HttpStatus.NOT_FOUND)
+        .then(({ body }) => {
+          expect(body.message).toEqual(`Enrollment with id uuid not found`);
         });
     });
   });
