@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Inject, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ENROLLMENT_NAME } from '../domain/enrollment.name';
 import {
   ENROLLMENT_SERVICE_KEY,
@@ -9,6 +18,8 @@ import { Auth } from '../../auth/decorators/auth.decorator';
 import { CreateEnrollmentDto } from '../application/dto/create-enrollment.dto';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { User } from '../../auth/domain/user.domain';
+import { USER_ROLES } from '../../auth/application/enum/user-roles.enum';
+import { AssignGradeDto } from '../application/dto/assign-grade.dto';
 
 @Controller(ENROLLMENT_NAME)
 export class EnrollmentController {
@@ -32,5 +43,14 @@ export class EnrollmentController {
     @CurrentUser() user: User,
   ): Promise<EnrollmentResponseDto> {
     return this.enrollmentService.create(createEnrollmentDto, user);
+  }
+
+  @Auth(USER_ROLES.ADMIN)
+  @Patch(':id')
+  async assignGrade(
+    @Param('id') enrollmentId: string,
+    @Body() assignGradeDto: AssignGradeDto,
+  ): Promise<EnrollmentResponseDto> {
+    return this.enrollmentService.assignGrade(enrollmentId, assignGradeDto);
   }
 }
