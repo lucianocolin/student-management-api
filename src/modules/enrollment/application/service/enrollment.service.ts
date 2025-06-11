@@ -65,7 +65,10 @@ export class EnrollmentService implements IEnrollmentService {
   ): Promise<EnrollmentResponseDto> {
     const dbEnrollmentUpdated = await this.enrollmentRepository.updateOne(
       enrollmentId,
-      assignGradeDto,
+      {
+        ...assignGradeDto,
+        approved: assignGradeDto.grade >= 6,
+      },
     );
 
     return this.enrollmentMapper.fromEnrollmentToEnrollmentResponseDto(
