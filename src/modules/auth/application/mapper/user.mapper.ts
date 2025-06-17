@@ -5,7 +5,8 @@ import { UserResponseDto } from '../dto/user-response.dto';
 @Injectable()
 export class UserMapper {
   fromUserToUserResponseDto(user: User): UserResponseDto {
-    const { id, fullName, email, phoneNumber, roles, studentId } = user;
+    const { id, fullName, email, phoneNumber, roles, studentId, isApproved } =
+      user;
 
     return new UserResponseDto({
       id,
@@ -14,6 +15,7 @@ export class UserMapper {
       phoneNumber,
       roles,
       studentId,
+      isApproved,
     });
   }
 }
