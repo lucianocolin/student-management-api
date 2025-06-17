@@ -8,6 +8,7 @@ export class UserResponseDto {
   roles: USER_ROLES[];
   token?: string;
   studentId?: string;
+  isApproved: boolean;
   constructor(data: UserResponseDto) {
     Object.assign(this, data);
   }

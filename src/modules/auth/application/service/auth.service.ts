@@ -14,6 +14,8 @@ import { InvalidPasswordException } from '../../domain/exceptions/invalid-passwo
 import { JwtService } from '@nestjs/jwt';
 import { IJwtPayload } from '../../domain/interfaces/jwt-payload.interface';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { UserIdNotFoundException } from '../../domain/exceptions/user-id-not-found.exception';
+import { UserNotApprovedException } from '../../domain/exceptions/user-not-approved.exception';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -44,6 +46,10 @@ export class AuthService implements IAuthService {
       throw new UserNotFoundException(email);
     }
 
+    if (user.isApproved === false) {
+      throw new UserNotApprovedException(user.email);
+    }
+
     if (!bcrypt.compareSync(password, user.password)) {
       throw new InvalidPasswordException();
     }
@@ -54,6 +60,20 @@ export class AuthService implements IAuthService {
       ...mappedUser,
       token: this.getJWTToken({ id: user.id, email: user.email }),
     };
+  }
+
+  async approveRegistrationRequest(userId: string): Promise<UserResponseDto> {
+    const user = await this.userRepository.findOneById(userId);
+
+    if (!user) {
+      throw new UserIdNotFoundException(userId);
+    }
+
+    user.isApproved = true;
+
+    return this.userMapper.fromUserToUserResponseDto(
+      await this.userRepository.updateOne(userId, user),
+    );
   }
 
   async updateUser(

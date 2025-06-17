@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { RegisterUserDto } from '../application/dto/register-user.dto';
 import {
   AUTH_SERVICE_KEY,
@@ -10,6 +18,7 @@ import { CurrentUser } from '../decorators/current-user.decorator';
 import { Auth } from '../decorators/auth.decorator';
 import { User } from '../domain/user.domain';
 import { UserMapper } from '../application/mapper/user.mapper';
+import { USER_ROLES } from '../application/enum/user-roles.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -29,6 +38,14 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto): Promise<UserResponseDto> {
     return await this.authService.login(loginUserDto);
+  }
+
+  @Auth(USER_ROLES.ADMIN)
+  @Patch('/approve/:id')
+  async approveRegistrationRequest(
+    @Param('id') userId: string,
+  ): Promise<UserResponseDto> {
+    return await this.authService.approveRegistrationRequest(userId);
   }
 
   @Auth()

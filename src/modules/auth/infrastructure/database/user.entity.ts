@@ -37,6 +37,9 @@ export class UserEntity {
   @Column({ type: 'uuid', nullable: true })
   studentId: string;
 
+  @Column({ type: 'bool', default: false })
+  isApproved: boolean;
+
   @OneToOne(() => StudentEntity, (student) => student.user, {
     cascade: true,
     nullable: true,

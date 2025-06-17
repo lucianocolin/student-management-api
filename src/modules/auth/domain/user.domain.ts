@@ -8,4 +8,5 @@ export class User {
   phoneNumber: string;
   roles: USER_ROLES[];
   studentId?: string;
+  isApproved: boolean;
 }
