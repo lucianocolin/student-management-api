@@ -26,6 +26,16 @@ export class AuthService implements IAuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  async getNotApprovedUsers(): Promise<UserResponseDto[]> {
+    const dbUsers = await this.userRepository.findAll();
+
+    const notApprovedUsers = dbUsers.filter((user) => !user.isApproved);
+
+    return notApprovedUsers.map((user) =>
+      this.userMapper.fromUserToUserResponseDto(user),
+    );
+  }
+
   async register(registerUserDto: RegisterUserDto): Promise<UserResponseDto> {
     const { password, ...rest } = registerUserDto;
 
