@@ -15,6 +15,10 @@ export class UserRepository implements IUserRepository {
     private readonly repository: Repository<User>,
   ) {}
 
+  async findAll(): Promise<User[]> {
+    return this.repository.find();
+  }
+
   async saveOne(registerUserDto: RegisterUserDto): Promise<User> {
     const { email } = registerUserDto;
 
