@@ -22,6 +22,7 @@ import { UserMapper } from '../application/mapper/user.mapper';
 import { UserIdNotFoundException } from '../domain/exceptions/user-id-not-found.exception';
 
 const mockAuthService = {
+  getNotApprovedUsers: jest.fn(),
   register: jest.fn(),
   login: jest.fn(),
   approveRegistrationRequest: jest.fn(),
@@ -125,6 +126,55 @@ describe('Auth Module', () => {
           expect(body.message).toEqual(
             `User with email ${registerUserDto.email} already exists`,
           );
+        });
+    });
+  });
+
+  describe('GET - /auth/not-approved-users', () => {
+    it('should get all not approved users', async () => {
+      const testUserPayload = {
+        id: testUserId,
+        email: 'admin@example.com',
+      };
+
+      const authToken = jwtService.sign(testUserPayload);
+
+      jest.spyOn(mockAuthService, 'getNotApprovedUsers').mockResolvedValueOnce([
+        {
+          id: '1',
+          fullName: 'John Doe',
+          email: 'bBZQm@example.com',
+          phoneNumber: '+1234567890',
+          roles: [USER_ROLES.USER],
+          isApproved: false,
+        } as any,
+      ]);
+
+      await request(app.getHttpServer())
+        .get('/auth/not-approved-users')
+        .set('Authorization', `Bearer ${authToken}`)
+        .expect(HttpStatus.OK)
+        .then(({ body }) => {
+          const expectedResponse = expect.arrayContaining([
+            expect.objectContaining({
+              id: expect.any(String),
+              fullName: expect.any(String),
+              email: expect.any(String),
+              phoneNumber: expect.any(String),
+              roles: expect.arrayContaining([USER_ROLES.USER]),
+            }),
+          ]);
+
+          expect(body).toEqual(expectedResponse);
+        });
+    });
+
+    it('should throw an exception if user is not admin', async () => {
+      await request(app.getHttpServer())
+        .get('/auth/not-approved-users')
+        .expect(HttpStatus.UNAUTHORIZED)
+        .then(({ body }) => {
+          expect(body.message).toEqual('Unauthorized');
         });
     });
   });
