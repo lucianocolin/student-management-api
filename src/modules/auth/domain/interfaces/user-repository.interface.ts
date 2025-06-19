@@ -4,6 +4,7 @@ import { User } from '../user.domain';
 export const USER_REPOSITORY_KEY = 'USER_REPOSITORY';
 
 export interface IUserRepository {
+  findAll(): Promise<User[]>;
   saveOne(registerUserDto: RegisterUserDto): Promise<User>;
   findOneByEmail(email: string): Promise<User>;
   findOneById(id: string): Promise<User>;

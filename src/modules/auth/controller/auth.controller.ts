@@ -28,6 +28,18 @@ export class AuthController {
     private readonly userMapper: UserMapper,
   ) {}
 
+  @Auth()
+  @Get('me')
+  getMyUser(@CurrentUser() user: User): UserResponseDto {
+    return this.userMapper.fromUserToUserResponseDto(user);
+  }
+
+  @Auth(USER_ROLES.ADMIN)
+  @Get('not-approved-users')
+  async getNotApprovedUsers(): Promise<UserResponseDto[]> {
+    return await this.authService.getNotApprovedUsers();
+  }
+
   @Post('register')
   async register(
     @Body() registerUserDto: RegisterUserDto,
@@ -46,11 +58,5 @@ export class AuthController {
     @Param('id') userId: string,
   ): Promise<UserResponseDto> {
     return await this.authService.approveRegistrationRequest(userId);
-  }
-
-  @Auth()
-  @Get('me')
-  getMyUser(@CurrentUser() user: User): UserResponseDto {
-    return this.userMapper.fromUserToUserResponseDto(user);
   }
 }

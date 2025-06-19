@@ -6,6 +6,7 @@ import { UserResponseDto } from '../../application/dto/user-response.dto';
 export const AUTH_SERVICE_KEY = 'AUTH_SERVICE';
 
 export interface IAuthService {
+  getNotApprovedUsers(): Promise<UserResponseDto[]>;
   register(registerUserDto: RegisterUserDto): Promise<UserResponseDto>;
   login(loginUserDto: LoginUserDto): Promise<UserResponseDto>;
   approveRegistrationRequest(userId: string): Promise<UserResponseDto>;
