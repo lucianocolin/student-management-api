@@ -6,6 +6,7 @@ import { StudentModule } from './modules/student/student.module';
 import { CareerModule } from './modules/career/career.module';
 import { SubjectModule } from './modules/subject/subject.module';
 import { EnrollmentModule } from './modules/enrollment/enrollment.module';
+import { ManufacturersModule } from './modules/manufacturers/manufacturers.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { EnrollmentModule } from './modules/enrollment/enrollment.module';
     CareerModule,
     SubjectModule,
     EnrollmentModule,
+    ManufacturersModule,
   ],
   controllers: [],
   providers: [],
